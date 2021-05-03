@@ -35,7 +35,7 @@ def train():
         model.compile(optimizer='adam',
                       loss='sparse_categorical_crossentropy',
                       metrics=['accuracy'])
-        model.fit(data, labels, epochs=5)
+        model.fit(data, labels, epochs=10)
         predimg = request.files["predimg"]
         predarr = np.fromstring(predimg.read(), np.uint8)
         predarr = cv2.imdecode(predarr, cv2.IMREAD_COLOR)

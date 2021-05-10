@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from flask import Flask, render_template, request, redirect
 import keras
+from keras.utils import to_categorical
 
 app = Flask(__name__)
 
@@ -23,6 +24,8 @@ def train():
 
         labels = request.form.getlist("label")
         labels = np.array(labels).astype(np.int32)
+        labels = to_categorical(labels)
+
 
         data = data / 255
 

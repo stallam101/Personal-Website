@@ -31,7 +31,7 @@ def train():
 
         model = keras.Sequential([
             keras.layers.Conv2D(filters=32, kernel_size=(3,3), input_shape=(100,100,3)),
-            keras.layers.Maxpooling2D(pool_size=(2,2)),
+            keras.layers.MaxPooling2D(pool_size=(2,2)),
             keras.layers.Flatten(),
             keras.layers.Dense(256, activation='relu'),
             keras.layers.Dense(2, activation='softmax')

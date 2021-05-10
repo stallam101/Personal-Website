@@ -17,8 +17,7 @@ def train():
         for img in allimg:
             imgarr = np.fromstring(img.read(), np.uint8)
             imgarr = cv2.imdecode(imgarr, cv2.IMREAD_COLOR)
-            grayimgarr = cv2.cvtColor(imgarr, cv2.COLOR_BGR2GRAY)
-            resimgarr = cv2.resize(grayimgarr, (100,100))
+            resimgarr = cv2.resize(imgarr, (100,100))
             data.append(resimgarr)
         data = np.array(data)
 
@@ -28,20 +27,19 @@ def train():
         data = data / 255
 
         model = keras.Sequential([
-            keras.layers.Flatten(input_shape=(100, 100)),
+            keras.layers.Flatten(input_shape=(100, 100, 3)),
             keras.layers.Dense(256, activation='relu'),
             keras.layers.Dense(2, activation='softmax')
         ])
         model.compile(optimizer='adam',
                       loss='sparse_categorical_crossentropy',
                       metrics=['accuracy'])
-        model.fit(data, labels, epochs=7)
+        model.fit(data, labels, epochs=5)
         predimg = request.files["predimg"]
         predarr = np.fromstring(predimg.read(), np.uint8)
         predarr = cv2.imdecode(predarr, cv2.IMREAD_COLOR)
-        predgray = cv2.cvtColor(predarr, cv2.COLOR_BGR2GRAY)
-        respred = cv2.resize(predgray, (100, 100))
-        predtest = np.reshape(respred, (1, 100, 100))
+        respred = cv2.resize(predarr, (100, 100))
+        predtest = np.reshape(respred, (1, 100, 100, 3))
 
         finalpred = model.predict(predtest)
         for finalpredictions in finalpred:
